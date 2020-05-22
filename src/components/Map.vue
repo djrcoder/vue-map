@@ -15,7 +15,17 @@
       @update:center="centerUpdate"
       @update:zoom="zoomUpdate"
       @click="logLatLng"
+      @polylinemeasure:toggle="handleToggle"
+      @polylinemeasure:start="handleStart"
+      @polylinemeasure:resume="handleResume"
+      @polylinemeasure:finish="handleFinish"
+      @polylinemeasure:clear="handleClear"
+      @polylinemeasure:add="handleAdd"
+      @polylinemeasure:insert="handleInsert"
+      @polylinemeasure:move="handleMove"
+      @polylinemeasure:remove="handleRemove"
     >
+      <l-control-polyline-measure />
       <l-tile-layer :url="url" :attribution="attribution" />
 
       <l-marker
@@ -28,6 +38,7 @@
       ></l-marker>
       <l-geo-json :geojson="geojson"></l-geo-json>
     </l-map>
+    <p v-for="event in events" :key="event.order">{{ event.order }}. {{ event.desc }}</p>
   </div>
 </template>
 
@@ -42,6 +53,7 @@ import {
   LGeoJson
 } from "vue2-leaflet";
 import { Icon } from "leaflet";
+import LControlPolylineMeasure from "vue2-leaflet-polyline-measure";
 
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
@@ -58,10 +70,12 @@ export default {
     LMarker,
     // LPopup,
     // LTooltip,
-    LGeoJson
+    LGeoJson,
+    LControlPolylineMeasure
   },
   data() {
     return {
+      eventDescriptions: [],
       markerArray: [
         {
           position: { lng: -1.219482, lat: 47.41322 },
@@ -88,6 +102,15 @@ export default {
       geojson: null
     };
   },
+
+  computed: {
+    events() {
+      return this.eventDescriptions
+        .map((desc, idx) => ({ order: idx + 1, desc }))
+        .reverse();
+    }
+  },
+
   methods: {
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
@@ -111,6 +134,38 @@ export default {
       this.markerArray.push({
         position: { lng: e.latlng.lng, lat: e.latlng.lat }
       });
+    },
+    addEvent(desc) {
+      this.eventDescriptions.push(desc);
+    },
+    handleToggle(e) {
+      this.addEvent(`Toggled: ${e.sttus}`);
+    },
+    handleStart(currentLine) {
+      this.addEvent(`Started: Initial distance ${currentLine.distance}`);
+    },
+    handleResume(currentLine) {
+      this.addEvent(`Resumed: Current distance ${currentLine.distance}`);
+    },
+    handleFinish(currentLine) {
+      this.addEvent(
+        `Finished: Total distance ${(currentLine.distance / 1000).toFixed(2)}km`
+      );
+    },
+    handleClear() {
+      this.addEvent("Cleared");
+    },
+    handleAdd(e) {
+      this.addEvent(`Added point: ${e.latlng}`);
+    },
+    handleInsert(e) {
+      this.addEvent(`Inserted point: ${e.latlng}`);
+    },
+    handleMove(e) {
+      this.addEvent(`Moved point: ${e.latlng} to ${e.sourceTarget._latlng}`);
+    },
+    handleRemove(e) {
+      this.addEvent(`Removed point: ${e.latlng}`);
     }
   },
   async created() {
