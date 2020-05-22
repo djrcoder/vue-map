@@ -4785,6 +4785,10 @@ launch-editor@^2.2.1:
     chalk "^2.3.0"
     shell-quote "^1.6.1"
 
+"leaflet.polylinemeasure@github:ppete2/Leaflet.PolylineMeasure#b85a4b9":
+  version "1.0.0"
+  resolved "https://codeload.github.com/ppete2/Leaflet.PolylineMeasure/tar.gz/b85a4b9d3541e4339f9b25ca2264f5af8b42344d"
+
 leaflet@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.6.0.tgz#aecbb044b949ec29469eeb31c77a88e2f448f308"
@@ -7926,7 +7930,15 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU=
 
-vue2-leaflet@^2.5.2:
+vue2-leaflet-polyline-measure@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/vue2-leaflet-polyline-measure/-/vue2-leaflet-polyline-measure-1.2.0.tgz#73faad189b99a7a4eb7017abf5351ec7e9b90ad6"
+  integrity sha512-d3U7D93ZlDDGFYLEiSpZE4ElpsKr5TMsghHvZ6fH5xSFnCCkwvDWBEhorleYYQCeba7nETItvIB5ofcSCHn/jg==
+  dependencies:
+    leaflet.polylinemeasure "github:ppete2/Leaflet.PolylineMeasure#b85a4b9"
+    vue2-leaflet "^2.0.0"
+
+vue2-leaflet@^2.0.0, vue2-leaflet@^2.5.2:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/vue2-leaflet/-/vue2-leaflet-2.5.2.tgz#b89c056fe741c7ce7cb9df5aca90809092e5eb8d"
   integrity sha512-9eN0TxqCkyXbaI7waO3u+n0OAezkxjb811tstG6gRLAZy/ocXlNLC3JqTWE0FwBUlqBbMpyzsIk6LrEhs8oVBQ==
