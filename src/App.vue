@@ -1,19 +1,26 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="application">
+    <Camera name="logo" :rating="9" />
+    <Map />
   </div>
 </template>
 
+
+
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Map from "./components/Map.vue";
+import Camera from "./components/Camera.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
+    Map,
+    Camera
+  },
+  props: {
+    message: String
   }
-}
+};
 </script>
 
 <style>
