@@ -25,7 +25,7 @@
       @polylinemeasure:move="handleMove"
       @polylinemeasure:remove="handleRemove"
     >
-      <l-control-polyline-measure />
+      <l-control-polyline-measure :options="{ showUnitControl: true }" position="topright" />
       <l-tile-layer :url="url" :attribution="attribution" />
 
       <l-marker
@@ -36,25 +36,18 @@
         :lat-lng.sync="marker.position"
         :icon="marker.icon"
       ></l-marker>
-      <l-geo-json :geojson="geojson"></l-geo-json>
+      <!-- <l-geo-json :geojson="geojson"></l-geo-json> -->
     </l-map>
     <p v-for="event in events" :key="event.order">{{ event.order }}. {{ event.desc }}</p>
   </div>
 </template>
 
 <script>
-import { latLng } from "leaflet";
-import {
-  LMap,
-  LTileLayer,
-  LMarker,
-  // LPopup,
-  // LTooltip,
-  LGeoJson
-} from "vue2-leaflet";
-import { Icon } from "leaflet";
+import { latLng, Icon } from "leaflet";
+import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
 import LControlPolylineMeasure from "vue2-leaflet-polyline-measure";
 
+// Over-rides default icon and makes sure icon shows up
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -68,9 +61,7 @@ export default {
     LMap,
     LTileLayer,
     LMarker,
-    // LPopup,
-    // LTooltip,
-    LGeoJson,
+    // LGeoJson,
     LControlPolylineMeasure
   },
   data() {
@@ -89,9 +80,6 @@ export default {
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      // withPopup: markerArray,
-
-      // withTooltip: markerArray,
       currentZoom: 2,
       currentCenter: latLng(47.41322, -1.219482),
       showParagraph: false,
@@ -102,15 +90,14 @@ export default {
       geojson: null
     };
   },
-
   computed: {
+    // pass new object with lat and long to event description
     events() {
       return this.eventDescriptions
-        .map((desc, idx) => ({ order: idx + 1, desc }))
+        .map((desc, index) => ({ order: index + 1, desc }))
         .reverse();
     }
   },
-
   methods: {
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
@@ -126,11 +113,6 @@ export default {
       alert(e);
     },
     logLatLng(e) {
-      // const lati = this.latlng.lat,
-      // let longi = this.latlng.lng
-
-      console.log(e.latlng);
-
       this.markerArray.push({
         position: { lng: e.latlng.lng, lat: e.latlng.lat }
       });
@@ -151,6 +133,7 @@ export default {
       this.addEvent(
         `Finished: Total distance ${(currentLine.distance / 1000).toFixed(2)}km`
       );
+      // this.method name to covert all points to GPX or XML format
     },
     handleClear() {
       this.addEvent("Cleared");
@@ -169,34 +152,7 @@ export default {
     }
   },
   async created() {
-    // const response = await fetch(
-    //   "https://rawgit.com/gregoiredavid/france-geojson/master/regions/pays-de-la-loire/communes-pays-de-la-loire.geojson"
-    // );
-    // this.geojson = await response.json();
+    //this.geojson = fetch request or file
   }
 };
-
-//  <l-marker :lat-lng="withPopup">
-//         <l-popup>
-//           <div @click="innerClick">
-//             I am a popup
-//             <p v-show="showParagraph">
-//               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-//               sed pretium nisl, ut sagittis sapien. Sed vel sollicitudin nisi.
-//               Donec finibus semper metus id malesuada.
-//             </p>
-//           </div>
-//         </l-popup>
-//       </l-marker>
-//       <l-marker :lat-lng="withTooltip">
-//         <l-tooltip :options="{ permanent: true, interactive: true }">
-//           <div @click="innerClick">
-//             I am a tooltip
-//             <p v-show="showParagraph">
-//               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-//               sed pretium nisl, ut sagittis sapien. Sed vel sollicitudin nisi.
-//               Donec finibus semper metus id malesuada.
-//             </p>
-//           </div>
-//         </l-tooltip>
 </script>
