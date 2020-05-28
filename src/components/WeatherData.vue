@@ -33,14 +33,13 @@ export default {
     };
   },
   methods: {
-    if (noWeather) {
     getWeatherData(lat, lng) {
       const url = `${apiURL}lat=${lat}&lon=${lng}&appid=${weatherKey}`;
       fetch(url)
         .then(res => {
           const response = res.json();
-          return response;
           noWeather = false;
+          return response;
         })
         .then(response => {
           console.log(response);
@@ -48,13 +47,14 @@ export default {
         })
         .catch(err => console.log(err));
     }
-    }
   },
   updated() {
-    this.getWeatherData(
-      this.markers[0].position.lat,
-      this.markers[0].position.lng
-    );
+    if (noWeather) {
+      this.getWeatherData(
+        this.markers[0].position.lat,
+        this.markers[0].position.lng
+      );
+    }
   }
 };
 </script>
