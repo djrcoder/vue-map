@@ -1,7 +1,7 @@
 <template>
   <div class="application">
-    <Camera name="logo" :rating="9" />
-    <Map />
+    <Map @update-weather-marker="updateWeatherMarker" />
+    <WeatherData v-bind:markers="markers" />
   </div>
 </template>
 
@@ -9,16 +9,25 @@
 
 <script>
 import Map from "./components/Map.vue";
-import Camera from "./components/Camera.vue";
+import WeatherData from "./components/WeatherData.vue";
 
 export default {
   name: "App",
+
   components: {
     Map,
-    Camera
+    WeatherData
   },
-  props: {
-    message: String
+
+  data() {
+    return {
+      markers: []
+    };
+  },
+  methods: {
+    updateWeatherMarker(weatherVectors) {
+      this.markers.push(weatherVectors);
+    }
   }
 };
 </script>
