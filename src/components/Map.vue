@@ -3,8 +3,10 @@
     <div style="height: 200px overflow: auto;">
       <!-- <p>First marker is placed at {{ withPopup.lat }}, {{ withPopup.lng }}</p> -->
       <p>Center is at {{ currentCenter }} and the zoom is: {{ currentZoom }}</p>
-      <button @click="showLongText">Toggle long popup</button>
-      <button @click="showMap = !showMap">Toggle map</button>
+      <p>
+        <button @click="showLongText">Toggle long popup</button>
+        <button @click="showMap = !showMap">Toggle map</button>
+      </p>
     </div>
     <l-map
       v-if="showMap"
@@ -38,7 +40,9 @@
       ></l-marker>
       <!-- <l-geo-json :geojson="geojson"></l-geo-json> -->
     </l-map>
-    <p v-for="event in events" :key="event.order">{{ event.order }}. {{ event.desc }}</p>
+    <!-- <Demo v-for="event in events" :key="event.order" /> -->
+    <!-- <Demo v-bind:marker="markerArray" /> -->
+    <!-- <p v-for="event in events" :key="event.order">{{ event.order }}. {{ event.desc }}</p> -->
   </div>
 </template>
 
@@ -47,6 +51,7 @@ import { latLng, Icon } from "leaflet";
 import { LMap, LTileLayer, LMarker } from "vue2-leaflet";
 import LControlPolylineMeasure from "vue2-leaflet-polyline-measure";
 
+let firstMarker = false;
 // Over-rides default icon and makes sure icon shows up
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
@@ -64,17 +69,11 @@ export default {
     // LGeoJson,
     LControlPolylineMeasure
   },
+
   data() {
     return {
       eventDescriptions: [],
-      markerArray: [
-        {
-          position: { lng: -1.219482, lat: 47.41322 },
-          visible: true,
-          draggable: true
-        },
-        { position: { lng: -1.571045, lat: 47.457809 } }
-      ],
+      markerArray: [],
       zoom: 5.5,
       center: latLng(47.41322, -1.219482),
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -98,6 +97,7 @@ export default {
         .reverse();
     }
   },
+
   methods: {
     zoomUpdate(zoom) {
       this.currentZoom = zoom;
@@ -113,6 +113,15 @@ export default {
       alert(e);
     },
     logLatLng(e) {
+      console.log(e.latlng);
+
+      if (!firstMarker) {
+        this.setTheWeather({
+          position: { lng: e.latlng.lng, lat: e.latlng.lat }
+        });
+        firstMarker = true;
+      }
+
       this.markerArray.push({
         position: { lng: e.latlng.lng, lat: e.latlng.lat }
       });
@@ -149,6 +158,9 @@ export default {
     },
     handleRemove(e) {
       this.addEvent(`Removed point: ${e.latlng}`);
+    },
+    setTheWeather(item) {
+      this.$emit("update-weather-marker", item);
     }
   },
   async created() {
