@@ -33,3 +33,9 @@ https://github.com/mikeu/vue2-leaflet-polyline-measure/blob/master/example.vue
 https://travishorn.com/interactive-maps-with-vue-leaflet-5430527353c8
 
 https://leafletjs.com/reference-0.7.7.html#marker
+
+https://gis.stackexchange.com/questions/302190/getting-elevation-data-in-leaflet
+
+https://developer.aliyun.com/mirror/npm/package/vue2-leaflet-polyline-measure
+
+https://alligator.io/vuejs/global-event-bus/
