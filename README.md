@@ -39,3 +39,9 @@ https://gis.stackexchange.com/questions/302190/getting-elevation-data-in-leaflet
 https://developer.aliyun.com/mirror/npm/package/vue2-leaflet-polyline-measure
 
 https://alligator.io/vuejs/global-event-bus/
+
+https://openweathermap.org/current
+
+https://medium.com/devmarketer/how-to-add-conditional-statements-to-v-for-loops-in-vue-js-c0b4d17e7dfd
+
+https://github.com/Leaflet/Leaflet/issues/4686

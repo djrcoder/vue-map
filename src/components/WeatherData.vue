@@ -7,8 +7,16 @@
       </li>
     </ul>
     <ul>
-      <p>{{ fetchedWeather }}</p>
+      <!-- <div id="weather-card" v-if="fetchedWeather">
+        <p>{{ fetchedWeather.weather[0].description }}</p>
+        <p>{{ fetchedWeather.main.temp }}</p>
+        <p>{{ fetchedWeather.main.feels_like }}</p>
+        <p>{{ fetchedWeather.humidity }}</p>
+      </div>-->
     </ul>
+    <div id="weather-card" v-for="item in currentWeather" v-bind:key="item">
+      <p>{{ item }}</p>
+    </div>
   </div>
 </template>
 
@@ -27,14 +35,16 @@ let noWeather = true;
 export default {
   name: "WeatherData",
   props: ["markers"],
+
   data() {
     return {
-      fetchedWeather: {}
+      fetchedWeather: [],
+      currentWeather: []
     };
   },
   methods: {
     getWeatherData(lat, lng) {
-      const url = `${apiURL}lat=${lat}&lon=${lng}&appid=${weatherKey}`;
+      const url = `${apiURL}lat=${lat}&lon=${lng}&units=metric&appid=${weatherKey}`;
       fetch(url)
         .then(res => {
           const response = res.json();
@@ -43,6 +53,11 @@ export default {
         })
         .then(response => {
           console.log(response);
+          this.currentWeather.push(response.main.temp + " degrees");
+          this.currentWeather.push("It is " + response.weather[0].description);
+          this.currentWeather.push("It feels like " + response.main.feels_like);
+          this.currentWeather.push("The humidity is " + response.main.humidity);
+          this.currentWeather.push("The windspeed is " + response.wind.speed);
           this.fetchedWeather = response;
         })
         .catch(err => console.log(err));
