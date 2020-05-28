@@ -15,6 +15,7 @@
 <script>
 const weatherKey = process.env.VUE_APP_WEATHER_KEY;
 const apiURL = "https://api.openweathermap.org/data/2.5/weather?";
+let noWeather = true;
 // const lat = 47.41322;
 // const lng = -1.219482;
 
@@ -32,18 +33,21 @@ export default {
     };
   },
   methods: {
+    if (noWeather) {
     getWeatherData(lat, lng) {
       const url = `${apiURL}lat=${lat}&lon=${lng}&appid=${weatherKey}`;
       fetch(url)
         .then(res => {
           const response = res.json();
           return response;
+          noWeather = false;
         })
         .then(response => {
           console.log(response);
           this.fetchedWeather = response;
         })
         .catch(err => console.log(err));
+    }
     }
   },
   updated() {
