@@ -37,7 +37,6 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
 }
@@ -45,10 +44,12 @@ export default {
 #application {
   display: flex; /* Magic begins */
   flex-wrap: wrap; /* Allow multiple lines */
+  text-align: center;
 }
 #application > div {
   flex: 1; /* Distribute space equally among the flex items */
   min-width: 300px; /* But force them to be at least300px wide */
   border: 1px solid;
+  text-align: center;
 }
 </style>
