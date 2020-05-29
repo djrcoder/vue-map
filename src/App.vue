@@ -41,4 +41,14 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+#application {
+  display: flex; /* Magic begins */
+  flex-wrap: wrap; /* Allow multiple lines */
+}
+#application > div {
+  flex: 1; /* Distribute space equally among the flex items */
+  min-width: 300px; /* But force them to be at least300px wide */
+  border: 1px solid;
+}
 </style>
