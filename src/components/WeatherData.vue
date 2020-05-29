@@ -1,24 +1,19 @@
 <template>
-  <div id="mark">
-    <ul>
-      <li v-for="marker in markers" v-bind:key="marker.position.lng">
-        <p>{{ marker.position }}</p>
-        <p>HELLO</p>
-      </li>
-    </ul>
-    <ul>
-      <!-- <div id="weather-card" v-if="fetchedWeather">
-        <p>{{ fetchedWeather.weather[0].description }}</p>
-        <p>{{ fetchedWeather.main.temp }}</p>
-        <p>{{ fetchedWeather.main.feels_like }}</p>
-        <p>{{ fetchedWeather.humidity }}</p>
-      </div>-->
-    </ul>
+  <div id="location-data">
+    <li v-for="marker in markers" v-bind:key="marker.position.lng">
+      <h2>Data for position {{ marker.position }}</h2>
+    </li>
+
+    <div id="Weather-icon" v-for="icon in weatherIcon" v-bind:key="icon">
+      <p>
+        <img v-for="icon in weatherIcon" v-bind:src="weatherIcon" v-bind:key="icon" />
+      </p>
+    </div>
     <div id="weather-card" v-for="item in currentWeather" v-bind:key="item">
       <p>{{ item }}</p>
     </div>
   </div>
-</template>
+</template>s
 
 <script>
 const weatherKey = process.env.VUE_APP_WEATHER_KEY;
@@ -39,6 +34,7 @@ export default {
   data() {
     return {
       fetchedWeather: [],
+      weatherIcon: [],
       currentWeather: []
     };
   },
@@ -53,11 +49,29 @@ export default {
         })
         .then(response => {
           console.log(response);
-          this.currentWeather.push(response.main.temp + " degrees");
-          this.currentWeather.push("It is " + response.weather[0].description);
-          this.currentWeather.push("It feels like " + response.main.feels_like);
-          this.currentWeather.push("The humidity is " + response.main.humidity);
-          this.currentWeather.push("The windspeed is " + response.wind.speed);
+
+          this.currentWeather.push("Report from " + response.name);
+
+          this.currentWeather.push(
+            "The current temperature is " + response.main.temp + "°C"
+          );
+          this.currentWeather.push(
+            "But it feels more like " + response.main.feels_like + "°C"
+          );
+          this.currentWeather.push(
+            "Weather conditions: " + response.weather[0].description
+          );
+          this.currentWeather.push(
+            "The humidity is " + response.main.humidity + "%"
+          );
+          this.currentWeather.push(
+            "The windspeed is " + response.wind.speed + " m/s"
+          );
+          this.weatherIcon.push(
+            "http://openweathermap.org/img/w/" +
+              response.weather[0].icon +
+              ".png"
+          );
           this.fetchedWeather = response;
         })
         .catch(err => console.log(err));
