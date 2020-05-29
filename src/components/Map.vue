@@ -1,8 +1,6 @@
 <template>
   <div style="height: 500px; width: 100%">
     <div style="height: 200px overflow: auto;">
-      <!-- <p>First marker is placed at {{ withPopup.lat }}, {{ withPopup.lng }}</p> -->
-      <p>Center is at {{ currentCenter }} and the zoom is: {{ currentZoom }}</p>
       <p>
         <button @click="showLongText">Toggle long popup</button>
         <button @click="showMap = !showMap">Toggle map</button>
@@ -74,13 +72,13 @@ export default {
     return {
       eventDescriptions: [],
       markerArray: [],
-      zoom: 5.5,
-      center: latLng(47.41322, -1.219482),
+      zoom: 2.5,
+      center: latLng(50.021423, 0.72655),
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       currentZoom: 2,
-      currentCenter: latLng(47.41322, -1.219482),
+      currentCenter: latLng(50.021423, 0.72655),
       showParagraph: false,
       mapOptions: {
         zoomSnap: 0.5
