@@ -1,17 +1,29 @@
 <template>
   <div id="location-data">
-    <li v-for="marker in markers" v-bind:key="marker.position.lng">
-      <h2>Data for position {{ marker.position }}</h2>
-    </li>
+    <md-card md-with-hover>
+      <md-ripple>
+        <md-card-header>
+          <div id="lat-lng-position" v-for="marker in markers" v-bind:key="marker.position.lng">
+            <h2>Data for position {{ Number(marker.position.lat).toFixed(4) }} {{ Number(marker.position.lng).toFixed(4) }}</h2>
+          </div>
+        </md-card-header>
+      </md-ripple>
+    </md-card>
 
-    <div id="Weather-icon" v-for="icon in weatherIcon" v-bind:key="icon">
-      <p>
-        <img v-for="icon in weatherIcon" v-bind:src="weatherIcon" v-bind:key="icon" />
-      </p>
-    </div>
-    <div id="weather-card" v-for="item in currentWeather" v-bind:key="item">
-      <p>{{ item }}</p>
-    </div>
+    <md-card md-with-hover>
+      <md-ripple>
+        <md-card-header>
+          <div id="Weather-icon" v-for="icon in weatherIcon" v-bind:key="icon">
+            <p>
+              <img v-for="icon in weatherIcon" v-bind:src="weatherIcon" v-bind:key="icon" />
+            </p>
+          </div>
+          <div id="weather-card" v-for="item in currentWeather" v-bind:key="item">
+            <p>{{ item }}</p>
+          </div>
+        </md-card-header>
+      </md-ripple>
+    </md-card>
   </div>
 </template>s
 
@@ -50,7 +62,13 @@ export default {
         .then(response => {
           console.log(response);
 
-          this.currentWeather.push("Report from " + response.name);
+          if (response.name) {
+            this.currentWeather.push("Report from " + response.name);
+          } else {
+            this.currentWeather.push(
+              "Report from " + lat.toFixed(5) + " " + lng.toFixed(5)
+            );
+          }
 
           this.currentWeather.push(
             "The current temperature is " + response.main.temp + "°C"

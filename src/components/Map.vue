@@ -2,10 +2,12 @@
   <div style="height: 500px; width: 100%">
     <div style="height: 200px overflow: auto;">
       <p>
-        <button @click="showLongText">Toggle long popup</button>
-        <button @click="showMap = !showMap">Toggle map</button>
+        <!-- <md-button class="md-raised">Default</md-button> -->
+        <md-button class="md-raised" @click="showLongText">Toggle long popup</md-button>
+        <md-button class="md-raised" @click="showMap = !showMap">Toggle map</md-button>
       </p>
     </div>
+
     <l-map
       v-if="showMap"
       :zoom="zoom"
@@ -38,6 +40,7 @@
       ></l-marker>
       <!-- <l-geo-json :geojson="geojson"></l-geo-json> -->
     </l-map>
+
     <!-- <Demo v-for="event in events" :key="event.order" /> -->
     <!-- <Demo v-bind:marker="markerArray" /> -->
     <!-- <p v-for="event in events" :key="event.order">{{ event.order }}. {{ event.desc }}</p> -->
