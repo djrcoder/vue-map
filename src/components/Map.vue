@@ -1,19 +1,18 @@
 <template>
-  <div style="height: 500px; width: 100%">
-    <div style="height: 200px overflow: auto;">
+  <div style="height: 500px; width: 80%; margin: 10%">
+    <!-- <div style="height: 200px overflow: auto;">
       <p>
-        <!-- <md-button class="md-raised">Default</md-button> -->
-        <md-button class="md-raised" @click="showLongText">Toggle long popup</md-button>
+        <md-button class="md-raised">Default</md-button>
+        <md-button class="md-raised" @click="showLongText">Measure Tool</md-button>
         <md-button class="md-raised" @click="showMap = !showMap">Toggle map</md-button>
       </p>
-    </div>
+    </div>-->
 
     <l-map
       v-if="showMap"
       :zoom="zoom"
       :center="center"
       :options="mapOptions"
-      style="height: 80%"
       @update:center="centerUpdate"
       @update:zoom="zoomUpdate"
       @click="logLatLng"

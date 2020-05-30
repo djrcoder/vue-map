@@ -9,6 +9,7 @@
         </md-card-header>
       </md-ripple>
     </md-card>
+    <p></p>
 
     <md-card md-with-hover>
       <md-ripple>
@@ -107,11 +108,13 @@ export default {
 </script>
 
 
-<style  scoped>
-.md-card {
-  width: 320px;
-  margin: 4px;
+<style>
+#location-data {
+  width: 80%;
+  margin: 10%;
   display: inline-block;
+  text-align: center;
+  text-size-adjust: 34px;
   vertical-align: top;
 }
 </style>

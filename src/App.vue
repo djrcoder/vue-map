@@ -1,7 +1,7 @@
 <template>
   <div class="application">
-    <Map @update-weather-marker="updateWeatherMarker" />
     <WeatherData v-bind:markers="markers" />
+    <Map @update-weather-marker="updateWeatherMarker" />
   </div>
 </template>
 
