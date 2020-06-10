@@ -100,7 +100,7 @@ export default {
     },
 
     getWiki() {
-      const url = `http://en.wikipedia.org/w/api.php?action=query&generator=geosearch&format=json&prop=coordinates%7Cpageimages&ggscoord=37.7891838%7C-122.4033522&origin=*`;
+      const url = `https://en.wikipedia.org/w/api.php?action=query&generator=geosearch&format=json&prop=coordinates%7Cpageimages&ggscoord=37.7891838%7C-122.4033522&origin=*`;
       fetch(url)
         .then(res => res.json())
         .then(res => {
