@@ -90,7 +90,7 @@ export default {
             "The windspeed is " + response.wind.speed + " m/s"
           );
           this.weatherIcon.push(
-            "http://openweathermap.org/img/w/" +
+            "https://openweathermap.org/img/w/" +
               response.weather[0].icon +
               ".png"
           );
