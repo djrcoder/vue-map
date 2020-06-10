@@ -11,6 +11,8 @@
     </md-card>
     <p></p>
 
+    <img :src="wikidata" />
+
     <md-card md-with-hover>
       <md-ripple>
         <md-card-header>
@@ -26,7 +28,7 @@
       </md-ripple>
     </md-card>
   </div>
-</template>s
+</template>
 
 <script>
 const weatherKey = process.env.VUE_APP_WEATHER_KEY;
@@ -48,7 +50,8 @@ export default {
     return {
       fetchedWeather: [],
       weatherIcon: [],
-      currentWeather: []
+      currentWeather: [],
+      wikidata: ""
     };
   },
   methods: {
@@ -94,14 +97,42 @@ export default {
           this.fetchedWeather = response;
         })
         .catch(err => console.log(err));
+    },
+
+    getWiki() {
+      const url = `http://en.wikipedia.org/w/api.php?action=query&generator=geosearch&format=json&prop=coordinates%7Cpageimages&ggscoord=37.7891838%7C-122.4033522&origin=*`;
+      fetch(url)
+        .then(res => res.json())
+        .then(res => {
+          console.log("res", res.query.pages);
+          let geoLocation = null;
+
+          for (const location in res.query.pages) {
+            console.log(location);
+            if (location && !geoLocation) {
+              geoLocation = location;
+            }
+          }
+
+          // console.log(
+          //   "Will?",
+          //   res.query.pages[geoLocation]["thumbnail"]["source"]
+          // );
+
+          const imgWik = res.query.pages[geoLocation]["thumbnail"]["source"];
+          console.log(geoLocation);
+          this.wikidata = imgWik;
+        });
     }
   },
+
   updated() {
     if (noWeather) {
       this.getWeatherData(
         this.markers[0].position.lat,
         this.markers[0].position.lng
       );
+      this.getWiki();
     }
   }
 };
