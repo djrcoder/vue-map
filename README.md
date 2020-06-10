@@ -63,4 +63,8 @@ visit [Map Track](https://map-track.now.sh)
 
 - https://github.com/Leaflet/Leaflet/issues/4686
 
+- https://www.mediawiki.org/wiki/API:Web_APIs_hub
 
+- https://docs.w3cub.com/dom/streams_api/concepts/
+
+- https://www.tutorialsplane.com/vue-js-change-image-src/
