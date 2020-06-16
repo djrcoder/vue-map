@@ -74,13 +74,15 @@ export default {
     return {
       eventDescriptions: [],
       markerArray: [],
-      zoom: 2.5,
-      center: latLng(50.021423, 0.72655),
+      zoom: 12,
+      center: latLng(48.858093, 2.294694),
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       currentZoom: 2,
-      currentCenter: latLng(50.021423, 0.72655),
+      // currentCenter: latLng(50.021423, 0.72655),
+
+      currentCenter: latLng(48.858093, 2.294694),
       showParagraph: false,
       mapOptions: {
         zoomSnap: 0.5

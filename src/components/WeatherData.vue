@@ -5,13 +5,26 @@
         <md-card-header>
           <div id="lat-lng-position" v-for="marker in markers" v-bind:key="marker.position.lng">
             <h2>Data for position {{ Number(marker.position.lat).toFixed(4) }} {{ Number(marker.position.lng).toFixed(4) }}</h2>
+            <!-- <h1>{{this.town}}</h1> -->
+            <h2 id="town" :src="town" />
           </div>
         </md-card-header>
       </md-ripple>
     </md-card>
     <p></p>
 
-    <img :src="wikidata" />
+    <md-card md-with-hover>
+      <md-ripple>
+        <md-card-header>
+          <div id="Weather-icon" v-for="icon in weatherIcon" v-bind:key="icon">
+            <p>
+              <img id="wikipic" :src="wikidata" />
+            </p>
+          </div>
+        </md-card-header>
+      </md-ripple>
+    </md-card>
+    <p></p>
 
     <md-card md-with-hover>
       <md-ripple>
@@ -51,7 +64,8 @@ export default {
       fetchedWeather: [],
       weatherIcon: [],
       currentWeather: [],
-      wikidata: ""
+      wikidata: "",
+      town: ""
     };
   },
   methods: {
@@ -68,6 +82,7 @@ export default {
 
           if (response.name) {
             this.currentWeather.push("Report from " + response.name);
+            this.town = response.name;
           } else {
             this.currentWeather.push(
               "Report from " + lat.toFixed(5) + " " + lng.toFixed(5)
@@ -100,7 +115,23 @@ export default {
     },
 
     getWiki() {
-      const url = `https://en.wikipedia.org/w/api.php?action=query&generator=geosearch&format=json&prop=coordinates%7Cpageimages&ggscoord=37.7891838%7C-122.4033522&origin=*`;
+      let latter = this.markers[0].position.lat.toFixed(2);
+      let longer = this.markers[0].position.lng.toFixed(2);
+
+      console.log(latter + "    " + longer);
+
+      console.log(`String text ${latter}`);
+
+      const url =
+        "https://en.wikipedia.org/w/api.php?action=query&generator=geosearch&format=json&prop=coordinates%7Cpageimages&ggscoord=" +
+        latter +
+        "%7C" +
+        longer +
+        "&origin=*";
+
+      console.log(url);
+
+      // const url = `https://en.wikipedia.org/w/api.php?action=query&generator=geosearch&format=json&prop=coordinates%7Cpageimages&ggscoord=37.7891838%7C-122.4033522&origin=*`;
       fetch(url)
         .then(res => res.json())
         .then(res => {
@@ -114,14 +145,57 @@ export default {
             }
           }
 
+          console.log(res.query.pages);
+
           // console.log(
           //   "Will?",
           //   res.query.pages[geoLocation]["thumbnail"]["source"]
           // );
 
-          const imgWik = res.query.pages[geoLocation]["thumbnail"]["source"];
-          console.log(geoLocation);
-          this.wikidata = imgWik;
+          // var imgTitle = res.query.pages[geoLocation]["title"];
+          var imgTitle = this.town;
+          // console.log("Yo", imgWik);
+          console.log("this.town", imgTitle);
+
+          let imageUrl = "https://en.wikipedia.org/w/api.php";
+
+          var params = {
+            action: "query",
+            format: "json",
+            list: "allimages",
+            aifrom: imgTitle,
+            ailimit: "1"
+          };
+          imageUrl = imageUrl + "?origin=*";
+          Object.keys(params).forEach(function(key) {
+            imageUrl += "&" + key + "=" + params[key];
+          });
+
+          fetch(imageUrl)
+            .then(function(response) {
+              return response.json();
+            })
+            .then(response => {
+              var images = response.query.allimages;
+              console.log(images[0]["url"]);
+              this.wikidata = images[0]["url"];
+
+              // let gotPic = null;
+              // for (var img in images) {
+              //   console.log(images[img]["url"]);
+              //   console.log("here");
+              //   // if (img && !gotPic) {
+              //   // const imgWik = images[img]["url"];
+              //   this.wikidata.push(
+              //     "https://upload.wikimedia.org/wikipedia/en/8/83/San_Francisco_Montage_4.png"
+              //   );
+              //   // gotPic = img;
+              //   // }
+              // }
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
         });
     }
   },
@@ -145,6 +219,16 @@ export default {
   margin: 10%;
   display: inline-block;
   text-align: center;
+  text-size-adjust: 34px;
+  vertical-align: top;
+}
+
+#wikipic {
+  width: 60%;
+  margin: 10%;
+  display: inline-block;
+  text-align: center;
+  align-content: center;
   text-size-adjust: 34px;
   vertical-align: top;
 }
